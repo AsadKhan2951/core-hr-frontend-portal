@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
+import { getLoginUrl, hasOAuthLoginConfig } from "@/const";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2, Shield, Users, GitBranch, BarChart3 } from "lucide-react";
@@ -16,6 +16,7 @@ const FEATURES = [
 export default function LoginPage() {
   const { isAuthenticated, loading } = useAuth();
   const [, setLocation] = useLocation();
+  const canStartLogin = hasOAuthLoginConfig();
 
   useEffect(() => {
     if (!loading && isAuthenticated) {
@@ -66,10 +67,16 @@ export default function LoginPage() {
             <Button
               size="lg"
               className="w-full sm:w-auto"
+              disabled={!canStartLogin}
               onClick={() => (window.location.href = getLoginUrl())}
             >
-              Sign in to CORE HR
+              {canStartLogin ? "Sign in to CORE HR" : "Login Config Required"}
             </Button>
+            {!canStartLogin && (
+              <p className="text-sm text-amber-600">
+                Vercel envs `VITE_OAUTH_PORTAL_URL` aur `VITE_APP_ID` set karni hongi.
+              </p>
+            )}
           </div>
 
           {/* Right: feature cards */}

@@ -14,6 +14,13 @@ function isValidHttpUrl(value: string | undefined) {
   }
 }
 
+export function hasOAuthLoginConfig() {
+  const oauthPortalUrl = import.meta.env.VITE_OAUTH_PORTAL_URL?.trim();
+  const appId = import.meta.env.VITE_APP_ID?.trim();
+
+  return isValidHttpUrl(oauthPortalUrl) && Boolean(appId);
+}
+
 // Generate login URL at runtime so redirect URI reflects the current origin.
 export const getLoginUrl = () => {
   const oauthPortalUrl = import.meta.env.VITE_OAUTH_PORTAL_URL?.trim();
@@ -22,7 +29,7 @@ export const getLoginUrl = () => {
   const state = globalThis.btoa(redirectUri);
 
   if (!isValidHttpUrl(oauthPortalUrl) || !appId) {
-    return "/login";
+    return "/";
   }
 
   const url = new URL(`${oauthPortalUrl}/app-auth`);

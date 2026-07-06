@@ -87,6 +87,7 @@ function Router() {
     <Switch>
       {/* Public */}
       <Route path="/" component={LoginPage} />
+      <Route path="/login" component={LoginPage} />
 
       {/* Dashboard */}
       <Route path="/dashboard">
