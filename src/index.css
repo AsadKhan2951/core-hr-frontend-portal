@@ -556,6 +556,29 @@
     border-radius: var(--canvas-radius) var(--canvas-radius) 0 0;
   }
 
+  /* ── Thin, subtle scrollbar (main content + sidebar nav) ── */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(120,140,160,.35) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(120,140,160,.30);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(120,140,160,.55);
+    background-clip: padding-box;
+  }
+
   /* ── Inset canvas glow blobs ── */
   .canvas-glow-tl {
     position: absolute;

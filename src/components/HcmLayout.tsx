@@ -396,13 +396,16 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
         )}
         {!collapsed && (
           <div className="flex items-center gap-2.5 flex-1 min-w-0 relative z-10">
-            {/* CoreHR logo — white/knockout, 500% size */}
-            <img
-              src="/manus-storage/corehr-logo_bca4def2.png"
-              alt="CoreHR"
-              className="h-[70px] w-auto object-contain shrink-0"
-              style={{ filter: "brightness(0) invert(1)" }}
-            />
+            {/* CoreHR wordmark — self-contained (no external asset) */}
+            <div
+              className="w-9 h-9 rounded-[12px] flex items-center justify-center shadow-sm shrink-0"
+              style={{ background: "linear-gradient(135deg, #4F9AB3 0%, #0FB4A8 55%, #08B8A8 100%)" }}
+            >
+              <span className="text-white text-base font-bold tracking-tight">C</span>
+            </div>
+            <span className="text-white font-bold text-lg tracking-tight truncate">
+              Core<span style={{ color: "#0FB4A8" }}>HR</span>
+            </span>
           </div>
         )}
         {collapsed && (
@@ -949,7 +952,7 @@ export function HcmLayout({ children, notificationCount: externalCount }: HcmLay
 
         {/* Page content */}
         <main
-          className="flex-1 overflow-y-auto relative z-10"
+          className="flex-1 overflow-y-auto relative z-10 scrollbar-thin"
           style={{ background: "var(--bg-app)" }}
         >
           {children}
