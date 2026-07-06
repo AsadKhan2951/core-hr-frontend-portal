@@ -3,12 +3,27 @@ export { COOKIE_NAME, ONE_YEAR_MS } from "./shared/const";
 export const getApiBaseUrl = () =>
   (import.meta.env.VITE_API_BASE_URL || window.location.origin).replace(/\/$/, "");
 
+function isValidHttpUrl(value: string | undefined) {
+  if (!value) return false;
+
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 // Generate login URL at runtime so redirect URI reflects the current origin.
 export const getLoginUrl = () => {
-  const oauthPortalUrl = import.meta.env.VITE_OAUTH_PORTAL_URL;
-  const appId = import.meta.env.VITE_APP_ID;
+  const oauthPortalUrl = import.meta.env.VITE_OAUTH_PORTAL_URL?.trim();
+  const appId = import.meta.env.VITE_APP_ID?.trim();
   const redirectUri = `${getApiBaseUrl()}/api/oauth/callback`;
-  const state = btoa(redirectUri);
+  const state = globalThis.btoa(redirectUri);
+
+  if (!isValidHttpUrl(oauthPortalUrl) || !appId) {
+    return "/login";
+  }
 
   const url = new URL(`${oauthPortalUrl}/app-auth`);
   url.searchParams.set("appId", appId);
