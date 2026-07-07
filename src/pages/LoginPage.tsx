@@ -84,13 +84,8 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="h-14 border-b border-border flex items-center px-6">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground text-xs font-bold">C</span>
-          </div>
-          <span className="font-semibold text-foreground">CORE HR</span>
-        </div>
+      <header className="h-16 border-b border-border flex items-center px-6">
+        <img src="/core-hr-logo.png" alt="CORE HR" className="brand-logo h-9 w-auto object-contain" />
       </header>
 
       {/* Hero */}

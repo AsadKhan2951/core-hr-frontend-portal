@@ -126,7 +126,7 @@
   --shadow-sidebar:    1px 0 0 0 rgba(14,23,38,.06);
 
   /* Inset canvas shell */
-  --frame-bg:          #0B1422;           /* dark frame that wraps everything */
+  --frame-bg:          #EBEFF3;           /* app frame/gutter — light in light mode */
   --canvas-bg:         #FFFFFF;           /* floating content surface */
   --canvas-radius:     26px;              /* rounded corners of the floating canvas */
   --canvas-gutter:     12px;             /* gap between frame edge and canvas */
@@ -578,6 +578,14 @@
     background: rgba(120,140,160,.55);
     background-clip: padding-box;
   }
+
+  /* ── Brand logo — dark artwork by default; knocked out to white in dark mode ── */
+  .brand-logo { filter: none; }
+  @media (prefers-color-scheme: dark) {
+    .brand-logo { filter: brightness(0) invert(1); }
+  }
+  :root[data-theme="dark"] .brand-logo { filter: brightness(0) invert(1); }
+  :root[data-theme="light"] .brand-logo { filter: none; }
 
   /* ── Inset canvas glow blobs ── */
   .canvas-glow-tl {

@@ -415,8 +415,7 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
             <img
               src="/core-hr-logo.png"
               alt="CoreHR"
-              className="h-11 w-auto max-w-[180px] object-contain shrink-0"
-              style={{ filter: "brightness(0) invert(1)" }}
+              className="brand-logo h-16 w-auto max-w-[190px] object-contain shrink-0"
             />
           </div>
         )}
@@ -432,7 +431,7 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
           <Button
             variant="ghost"
             size="icon"
-            className="h-7 w-7 shrink-0 relative z-10 text-white/30 hover:text-white/70 hover:bg-white/6"
+            className="h-7 w-7 shrink-0 relative z-10 text-muted-foreground hover:text-foreground hover:bg-accent"
             onClick={onToggle}
           >
             <ChevronLeft className="h-4 w-4" />
@@ -445,11 +444,11 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
         {visibleSections.map(section => (
           <div key={section.title} className={cn(collapsed ? "px-1.5" : "px-2")}>
             {!collapsed && (
-              <p className="px-2 mb-1 mt-2 text-[10px] font-bold uppercase tracking-[0.1em] text-white/30 first:mt-0">
+              <p className="px-2 mb-1 mt-2 text-[10px] font-bold uppercase tracking-[0.1em] text-muted-foreground first:mt-0">
                 {section.title}
               </p>
             )}
-            {collapsed && <div className="my-1.5 border-t border-white/8" />}
+            {collapsed && <div className="my-1.5 border-t border-border" />}
             <ul className="space-y-0.5">
               {section.items.map(item => {
                 const Icon = item.icon;
@@ -469,12 +468,12 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
                             <span className={cn(
                               "flex items-center justify-center h-9 w-full rounded-[14px] cursor-pointer transition-all duration-150 relative overflow-hidden",
                               active
-                                ? "bg-white/10 text-white font-semibold"
-                                : "text-white/60 hover:bg-white/6 hover:text-white/90"
+                                ? "bg-primary/10 text-primary font-semibold"
+                                : "text-muted-foreground hover:bg-accent hover:text-foreground"
                             )}>
                               <Icon className="h-[18px] w-[18px]" />
                               {liveCount > 0 && (
-                                <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-destructive ring-1 ring-sidebar" />
+                                <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-destructive ring-1 ring-background" />
                               )}
                             </span>
                           </Link>
@@ -489,14 +488,14 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
                             className={cn(
                               "flex items-center gap-2.5 h-9 w-full px-2.5 rounded-[14px] text-sm font-medium transition-all duration-150",
                               active
-                                ? "bg-white/10 text-white"
-                                : "text-white/60 hover:bg-white/6 hover:text-white/90"
+                                ? "bg-primary/10 text-primary"
+                                : "text-muted-foreground hover:bg-accent hover:text-foreground"
                             )}
                           >
                             <Icon className="h-[18px] w-[18px] shrink-0" />
                             <span className="flex-1 text-start truncate">{item.label}</span>
                             <ChevronRight className={cn(
-                              "h-3.5 w-3.5 shrink-0 text-white/30 transition-transform duration-150",
+                              "h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform duration-150",
                               expanded && "rotate-90"
                             )} />
                           </button>
@@ -505,8 +504,8 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
                             <span className={cn(
                               "flex items-center gap-2.5 h-9 w-full px-2.5 rounded-[14px] text-sm font-medium cursor-pointer transition-all duration-150 relative overflow-hidden",
                               active
-                                ? "bg-white/10 text-white font-semibold"
-                                : "text-white/60 hover:bg-white/6 hover:text-white/90"
+                                ? "bg-primary/10 text-primary font-semibold"
+                                : "text-muted-foreground hover:bg-accent hover:text-foreground"
                             )}>
                               {active && (
                                 <span
@@ -533,7 +532,7 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
                           </Link>
                         )}
                         {hasChildren && expanded && (
-                          <ul className="ms-4 mt-0.5 space-y-0.5 border-s border-sidebar-border/60 ps-3">
+                          <ul className="ms-4 mt-0.5 space-y-0.5 border-s border-border ps-3">
                             {item.children!.map(child => {
                               const ChildIcon = child.icon;
                               const childActive = isActive(child.href);
@@ -543,8 +542,8 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
                                     <span className={cn(
                                       "flex items-center gap-2 h-8 w-full px-2 rounded-[10px] text-sm cursor-pointer transition-all duration-150",
                                       childActive
-                                        ? "bg-white/10 text-white font-medium"
-                                        : "text-white/50 hover:bg-white/6 hover:text-white/85"
+                                        ? "bg-primary/10 text-primary font-medium"
+                                        : "text-muted-foreground hover:bg-accent hover:text-foreground"
                                     )}>
                                       <ChildIcon className="h-3.5 w-3.5 shrink-0" />
                                       <span className="truncate">{child.label}</span>
@@ -567,11 +566,11 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
 
       {/* Sidebar footer — collapse toggle (expanded mode) + help */}
       {!collapsed && (
-        <div className="border-t border-white/8 px-3 py-2 flex items-center gap-1">
+        <div className="border-t border-border px-3 py-2 flex items-center gap-1">
           <Button
             variant="ghost"
             size="sm"
-            className="flex-1 h-8 justify-start gap-2 text-xs text-white/40 hover:text-white/80 hover:bg-white/6"
+            className="flex-1 h-8 justify-start gap-2 text-xs text-muted-foreground hover:text-foreground hover:bg-accent"
             onClick={onToggle}
           >
             <ChevronLeft className="h-3.5 w-3.5" />
@@ -988,7 +987,7 @@ export function HcmLayout({ children, notificationCount: externalCount }: HcmLay
             <Button
               variant="ghost"
               size="icon"
-              className="absolute top-3 right-3 h-7 w-7 text-white/60 hover:text-white hover:bg-white/10"
+              className="absolute top-3 right-3 h-7 w-7 text-muted-foreground hover:text-foreground hover:bg-accent"
               onClick={() => setMobileOpen(false)}
             >
               <X className="h-4 w-4" />
