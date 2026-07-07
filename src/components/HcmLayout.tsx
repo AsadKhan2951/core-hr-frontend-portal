@@ -78,26 +78,49 @@ import { Sun, Moon } from "lucide-react";
 
 // ─── Role definitions ──────────────────────────────────────────────────────────
 
-type HcmRole = "super_admin" | "hr_admin" | "hr_manager" | "department_manager" | "employee" | "viewer";
+type HcmRole = "super_admin" | "hr_admin" | "hr_manager" | "payroll_admin" | "department_manager" | "employee" | "viewer";
 
+// Mirrors the RBAC guide's per-role sidebar. Top-level path prefixes a role may see.
 const ROLE_VISIBLE_MODULES: Record<HcmRole, string[]> = {
   super_admin: ["*"],
-  hr_admin: ["*"],
+  // Everything except System Settings + Access Management (those are super_admin only)
+  hr_admin: [
+    "/dashboard", "/my", "/my-team", "/employees", "/org", "/leave", "/attendance", "/payroll",
+    "/recruitment", "/performance", "/training", "/assets", "/announcements", "/documents",
+    "/notifications", "/approvals", "/workflow", "/audit", "/reports", "/ai-test", "/profile", "/expenses",
+  ],
+  // HR ops: no payroll run/salary config (blocked server-side), no training/settings/access
   hr_manager: [
     "/dashboard", "/my", "/my-team", "/employees", "/org", "/leave", "/attendance", "/payroll",
-    "/recruitment", "/performance", "/training", "/assets", "/announcements",
-    "/documents", "/approvals", "/reports", "/notifications", "/profile", "/expenses",
+    "/recruitment", "/performance", "/announcements", "/documents", "/approvals", "/workflow",
+    "/reports", "/notifications", "/profile", "/expenses",
   ],
+  // Payroll specialist: payroll + read-only employees + expenses + reports
+  payroll_admin: [
+    "/dashboard", "/employees", "/payroll", "/expenses", "/reports", "/notifications", "/profile",
+  ],
+  // Line manager: own team scope; no org edit, no payroll
   department_manager: [
-    "/dashboard", "/my", "/my-team", "/employees", "/org", "/leave", "/attendance",
+    "/dashboard", "/my", "/my-team", "/employees", "/leave", "/attendance",
     "/performance", "/announcements", "/documents", "/approvals",
     "/notifications", "/profile", "/expenses",
   ],
+  // Self-service only
   employee: [
     "/dashboard", "/my", "/leave", "/attendance", "/announcements",
     "/documents", "/notifications", "/profile", "/expenses",
   ],
   viewer: ["/dashboard", "/reports", "/notifications", "/profile"],
+};
+
+const ROLE_LABELS: Record<string, string> = {
+  super_admin: "Super Admin",
+  hr_admin: "HR Admin",
+  hr_manager: "HR Manager",
+  payroll_admin: "Payroll Admin",
+  department_manager: "Department Manager",
+  employee: "Employee",
+  viewer: "Viewer",
 };
 
 // ─── Nav structure ─────────────────────────────────────────────────────────────
@@ -356,7 +379,7 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
     setExpandedSections(prev => ({ ...prev, [href]: !prev[href] }));
   };
 
-  const isAdminRole = userRole === "super_admin" || userRole === "hr_admin";
+  const isAdminRole = userRole === "super_admin";
   const visibleSections = NAV_SECTIONS
     .filter(section => !section.adminOnly || isAdminRole)
     .map(section => ({
@@ -792,7 +815,7 @@ function Topbar({ onMobileMenuToggle, notificationCount = 0, onOpenAssistant, on
                   {user?.name ?? "User"}
                 </span>
                 <span className="text-[10px] text-muted-foreground leading-none mt-0.5">
-                  {(user as { role?: string } | null)?.role === "admin" ? "Super Admin" : "Employee"}
+                  {ROLE_LABELS[(user as { hcmRoleSlug?: string } | null)?.hcmRoleSlug ?? "employee"] ?? "Employee"}
                 </span>
               </div>
               <ChevronDown className="h-3 w-3 text-muted-foreground hidden sm:block" />
