@@ -369,6 +369,7 @@ interface SidebarProps {
 
 function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: SidebarProps) {
   const [location] = useLocation();
+  const { theme } = useTheme();
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
     "/org": true,
   });
@@ -413,9 +414,9 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
           <div className="flex items-center gap-2.5 flex-1 min-w-0 relative z-10">
             {/* CoreHR logo (public/core-hr-logo.png) — knockout to white on the dark sidebar */}
             <img
-              src="/core-hr-logo.png"
+              src={theme === "dark" ? "/core-hr-logo-white.png" : "/core-hr-logo-black.png"}
               alt="CoreHR"
-              className="brand-logo h-[24px] w-auto max-w-[190px] object-contain shrink-0"
+              className="h-[24px] w-auto max-w-[190px] object-contain shrink-0"
             />
           </div>
         )}

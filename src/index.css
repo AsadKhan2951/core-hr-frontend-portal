@@ -580,12 +580,6 @@
   }
 
   /* ── Brand logo — dark artwork by default; knocked out to white in dark mode ── */
-  .brand-logo { filter: none; }
-  @media (prefers-color-scheme: dark) {
-    .brand-logo { filter: brightness(0) invert(1); }
-  }
-  :root[data-theme="dark"] .brand-logo { filter: brightness(0) invert(1); }
-  :root[data-theme="light"] .brand-logo { filter: none; }
 
   /* ── Inset canvas glow blobs ── */
   .canvas-glow-tl {

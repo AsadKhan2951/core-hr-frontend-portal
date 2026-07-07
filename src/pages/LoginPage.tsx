@@ -85,12 +85,12 @@ export default function LoginPage() {
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="h-16 border-b border-border flex items-center px-6">
-        <img src="/core-hr-logo.png" alt="CORE HR" className="brand-logo h-[23px] w-auto object-contain" />
+        <img src="/core-hr-logo-black.png" alt="CORE HR" className="h-8 w-auto object-contain" />
       </header>
 
       {/* Hero */}
       <main className="flex-1 flex items-center justify-center p-6">
-        <div className="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div className="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-end">
           {/* Left: auth card */}
           <div className="space-y-6">
             <div>
