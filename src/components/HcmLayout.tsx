@@ -565,18 +565,9 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
         ))}
       </nav>
 
-      {/* Sidebar footer — collapse toggle (expanded mode) + help */}
+      {/* Sidebar footer — help */}
       {!collapsed && (
-        <div className="border-t border-border px-3 py-2 flex items-center gap-1">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="flex-1 h-8 justify-start gap-2 text-xs text-muted-foreground hover:text-foreground hover:bg-accent"
-            onClick={onToggle}
-          >
-            <ChevronLeft className="h-3.5 w-3.5" />
-            Collapse
-          </Button>
+        <div className="border-t border-border px-3 py-2 flex items-center justify-end gap-1">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground">
@@ -608,11 +599,10 @@ interface TopbarProps {
   onMobileMenuToggle: () => void;
   notificationCount?: number;
   onOpenAssistant?: () => void;
-  onSidebarToggle?: () => void;
   onStartTour?: () => void;
 }
 
-function Topbar({ onMobileMenuToggle, notificationCount = 0, onOpenAssistant, onSidebarToggle, onStartTour }: TopbarProps) {
+function Topbar({ onMobileMenuToggle, notificationCount = 0, onOpenAssistant, onStartTour }: TopbarProps) {
   const { user, logout } = useAuth();
   const [location] = useLocation();
   const [lang, setLang] = useState("en");
@@ -638,16 +628,6 @@ function Topbar({ onMobileMenuToggle, notificationCount = 0, onOpenAssistant, on
         size="icon"
         className="h-8 w-8 md:hidden shrink-0"
         onClick={onMobileMenuToggle}
-      >
-        <Menu className="h-4 w-4" />
-      </Button>
-
-      {/* Desktop sidebar toggle (collapsed mode) */}
-      <Button
-        variant="ghost"
-        size="icon"
-        className="h-8 w-8 hidden md:flex shrink-0"
-        onClick={onSidebarToggle}
       >
         <Menu className="h-4 w-4" />
       </Button>
@@ -883,7 +863,8 @@ interface HcmLayoutProps {
 }
 
 export function HcmLayout({ children, notificationCount: externalCount }: HcmLayoutProps) {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarPinnedOpen, setSidebarPinnedOpen] = useState(true);
+  const [sidebarHovered, setSidebarHovered] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [assistantOpen, setAssistantOpen] = useState(false);
   const openAssistant = useCallback(() => setAssistantOpen(true), []);
@@ -891,12 +872,17 @@ export function HcmLayout({ children, notificationCount: externalCount }: HcmLay
   const { open: tourOpen, startTour, closeTour } = useTour();
   const { user } = useAuth();
 
-  // Keyboard shortcut: Cmd/Ctrl+/ toggles sidebar
+  // Keyboard shortcut: Cmd/Ctrl+/ toggles the pinned desktop sidebar state
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "/") {
         e.preventDefault();
-        setSidebarCollapsed(c => !c);
+        setSidebarPinnedOpen((open) => {
+          if (open) {
+            setSidebarHovered(false);
+          }
+          return !open;
+        });
       }
     };
     window.addEventListener("keydown", handler);
@@ -913,6 +899,7 @@ export function HcmLayout({ children, notificationCount: externalCount }: HcmLay
   // Falls back to super_admin for Manus admin users, employee for everyone else.
   const userRole = (user as { hcmRoleSlug?: string; role?: string } | null)?.hcmRoleSlug
     ?? ((user as { role?: string } | null)?.role === "admin" ? "super_admin" : "employee");
+  const sidebarCollapsed = !sidebarPinnedOpen && !sidebarHovered;
 
   return (
     /*
@@ -929,10 +916,21 @@ export function HcmLayout({ children, notificationCount: externalCount }: HcmLay
       style={{ background: "var(--frame-bg)" }}
     >
       {/* ── Desktop Sidebar (lives in the dark frame, no border) ── */}
-      <div className="hidden md:flex shrink-0">
+      <div
+        className="hidden md:flex shrink-0"
+        onMouseEnter={() => setSidebarHovered(true)}
+        onMouseLeave={() => setSidebarHovered(false)}
+      >
         <Sidebar
           collapsed={sidebarCollapsed}
-          onToggle={() => setSidebarCollapsed(c => !c)}
+          onToggle={() => {
+            if (sidebarPinnedOpen) {
+              setSidebarHovered(false);
+              setSidebarPinnedOpen(false);
+              return;
+            }
+            setSidebarPinnedOpen(true);
+          }}
           notificationCount={notificationCount}
           userRole={userRole}
         />
@@ -958,7 +956,6 @@ export function HcmLayout({ children, notificationCount: externalCount }: HcmLay
           onMobileMenuToggle={() => setMobileOpen(o => !o)}
           notificationCount={notificationCount}
           onOpenAssistant={openAssistant}
-          onSidebarToggle={() => setSidebarCollapsed(c => !c)}
           onStartTour={startTour}
         />
 

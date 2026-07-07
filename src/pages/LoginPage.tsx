@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useTheme } from "@/contexts/ThemeContext";
 import { Loader2, Shield, Users, GitBranch, BarChart3 } from "lucide-react";
 
 const FEATURES = [
@@ -30,6 +31,7 @@ async function postAuth(path: string, body: Record<string, unknown>) {
 
 export default function LoginPage() {
   const { isAuthenticated, loading } = useAuth();
+  const { theme } = useTheme();
   const [, setLocation] = useLocation();
   const utils = trpc.useUtils();
 
@@ -85,7 +87,11 @@ export default function LoginPage() {
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="h-16 border-b border-border flex items-center px-6">
-        <img src="/core-hr-logo-black.png" alt="CORE HR" className="h-8 w-auto object-contain" />
+        <img
+          src={theme === "dark" ? "/core-hr-logo-white.png" : "/core-hr-logo-black.png"}
+          alt="CORE HR"
+          className="h-8 w-auto object-contain"
+        />
       </header>
 
       {/* Hero */}

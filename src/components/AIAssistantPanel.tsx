@@ -551,6 +551,7 @@ export function AIAssistantPanel({ open, onClose }: AIAssistantPanelProps) {
       <Sheet open={open} onOpenChange={v => !v && onClose()}>
         <SheetContent
           side="right"
+          hideClose
           className="w-full sm:w-[480px] p-0 flex flex-col gap-0"
         >
           {/* Header */}
