@@ -411,16 +411,13 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
         )}
         {!collapsed && (
           <div className="flex items-center gap-2.5 flex-1 min-w-0 relative z-10">
-            {/* CoreHR wordmark — self-contained (no external asset) */}
-            <div
-              className="w-9 h-9 rounded-[12px] flex items-center justify-center shadow-sm shrink-0"
-              style={{ background: "linear-gradient(135deg, #4F9AB3 0%, #0FB4A8 55%, #08B8A8 100%)" }}
-            >
-              <span className="text-white text-base font-bold tracking-tight">C</span>
-            </div>
-            <span className="text-white font-bold text-lg tracking-tight truncate">
-              Core<span style={{ color: "#0FB4A8" }}>HR</span>
-            </span>
+            {/* CoreHR logo (public/core-hr-logo.png) — knockout to white on the dark sidebar */}
+            <img
+              src="/core-hr-logo.png"
+              alt="CoreHR"
+              className="h-11 w-auto max-w-[180px] object-contain shrink-0"
+              style={{ filter: "brightness(0) invert(1)" }}
+            />
           </div>
         )}
         {collapsed && (
