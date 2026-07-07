@@ -398,7 +398,7 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
       {/* Logo + collapse toggle — seamlessly integrated, no border gap */}
       <div className={cn(
         "flex items-center shrink-0 relative",
-        collapsed ? "h-16 justify-center px-0" : "h-[88px] px-4 gap-2"
+        collapsed ? "h-16 justify-center px-0" : "h-[88px] pl-2 pr-3 gap-2"
       )}>
         {/* Subtle teal glow behind logo */}
         {!collapsed && (
@@ -415,7 +415,7 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
             <img
               src="/core-hr-logo.png"
               alt="CoreHR"
-              className="brand-logo h-16 w-auto max-w-[190px] object-contain shrink-0"
+              className="brand-logo h-[24px] w-auto max-w-[190px] object-contain shrink-0"
             />
           </div>
         )}
