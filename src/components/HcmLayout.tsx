@@ -371,20 +371,12 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
         "flex flex-col h-full transition-all duration-200 ease-out shrink-0",
         collapsed ? "w-[60px]" : "w-[240px]",
       )}
-      style={{
-        background: "var(--frame-bg)", /* match the app/body background so sidebar + content read as one surface */
-        boxShadow: "1px 0 0 0 var(--border-color)",
-      }}
     >
       {/* Logo + collapse toggle — seamlessly integrated, no border gap */}
       <div className={cn(
         "flex items-center shrink-0 relative",
         collapsed ? "h-16 justify-center px-0" : "h-[88px] px-4 gap-2"
-      )}
-        style={{
-          background: "linear-gradient(160deg, rgba(15,180,168,.08) 0%, transparent 100%)",
-        }}
-      >
+      )}>
         {/* Subtle teal glow behind logo */}
         {!collapsed && (
           <div
@@ -930,7 +922,7 @@ export function HcmLayout({ children, notificationCount: externalCount }: HcmLay
       <div
         className="flex flex-col flex-1 min-w-0 overflow-hidden relative"
         style={{
-          margin: "var(--canvas-gutter) var(--canvas-gutter) var(--canvas-gutter) 0",
+          margin: "var(--canvas-gutter) var(--canvas-gutter) var(--canvas-gutter) 15px",
           borderRadius: "var(--canvas-radius)",
           background: "var(--canvas-bg)",
           boxShadow: "var(--canvas-shadow)",
@@ -966,7 +958,7 @@ export function HcmLayout({ children, notificationCount: externalCount }: HcmLay
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
           />
-          <div className="relative z-10 flex animate-slide-up">
+          <div className="relative z-10 flex animate-slide-up" style={{ background: "var(--frame-bg)" }}>
             <Sidebar
               collapsed={false}
               onToggle={() => setMobileOpen(false)}
