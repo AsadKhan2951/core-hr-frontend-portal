@@ -372,8 +372,8 @@ function Sidebar({ collapsed, onToggle, notificationCount = 0, userRole }: Sideb
         collapsed ? "w-[60px]" : "w-[240px]",
       )}
       style={{
-        background: "linear-gradient(160deg, #0E2038 0%, #0B1E30 35%, #081828 65%, #050F1A 100%)", /* sidebar always dark */
-        boxShadow: "1px 0 0 0 rgba(255,255,255,.06)",
+        background: "var(--frame-bg)", /* match the app/body background so sidebar + content read as one surface */
+        boxShadow: "1px 0 0 0 var(--border-color)",
       }}
     >
       {/* Logo + collapse toggle — seamlessly integrated, no border gap */}
